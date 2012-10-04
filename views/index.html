@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Draw It</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="css/style.css">
+        <link href='http://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+
+
+        <!--[if lt IE 9]>
+            <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+
+    <header>
+        <h1 class="mainTitle">Draw It!</h1>
+    </header>
+    <div id="main">
+        <button id="clearCanvas">Clear Canvas</button>
+        <canvas id="canvas" height="400" width="600"></canvas>
+	</div>
+
+    <footer>Brought to you by Alex Normand & Suley M.</footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script defer>
+    $(function() {
+
+
+        var canvas = document.getElementById('canvas'),
+            $canvas = $(canvas),
+            canvasHeight = $canvas.attr('height'),
+            canvasWidth = $canvas.attr('width'),
+            ctx =  canvas.getContext('2d'),
+            clickX = [],  
+            clickY = [],
+            clickDrag = [],  
+            paint = false;
+
+
+        function addClick (x, y, dragging) {
+            clickX.push(x);
+            clickY.push(y);
+            clickDrag.push(dragging);
+        };
+
+        function redraw() {
+
+            ctx.clearRect(0, 0, $canvas.attr('width'), $canvas.attr('height')); // Fill in the canvas with white
+                  
+            ctx.strokeStyle = "#df4b26";
+            ctx.lineJoin = "round";
+            ctx.lineWidth = 5;
+                        
+            for(var i=0; i < clickX.length; i++) {
+                ctx.beginPath();
+                if (clickDrag[i] && i) {
+                  ctx.moveTo(clickX[i-1], clickY[i-1]);
+                } else {
+                  ctx.moveTo(clickX[i]-1, clickY[i]);
+                }
+                  ctx.lineTo(clickX[i], clickY[i]);
+                  ctx.closePath();
+                  ctx.stroke();
+              }
+        };
+
+        $('#canvas').mousedown(function(e){
+          var mouseX = e.pageX - this.offsetLeft;
+          var mouseY = e.pageY - this.offsetTop;
+        
+          paint = true;
+          addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+          redraw();
+        });
+
+
+        $('#canvas').mousemove(function(e){
+            if (paint) {
+                addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true)
+                redraw();
+            }        
+        });
+
+       
+        $('#canvas').on('mouseup mouseleave', function(e) {
+            paint = false;
+        });
+
+
+        $('#clearCanvas').click(function(e) {
+            clickX = [];
+            clickY = [];
+            clickDrag = [];
+
+            $canvas.attr('width', $canvas.attr('width'));
+           
+        });
+    });
+
+    </script>
+
+	</body>		
+</html>
+
+
