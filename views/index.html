@@ -26,85 +26,8 @@
 	</div>
 
     <footer>Brought to you by Alex Normand & Suley M.</footer>
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script>
-    $(function() {
-
-
-        var canvas = document.getElementById('canvas'),
-            $canvas = $(canvas),
-            canvasHeight = $canvas.attr('height'),
-            canvasWidth = $canvas.attr('width'),
-            ctx =  canvas.getContext('2d'),
-            clickX = [],  
-            clickY = [],
-            clickDrag = [],  
-            paint = false;
-
-
-        function addClick (x, y, dragging) {
-            clickX.push(x);
-            clickY.push(y);
-            clickDrag.push(dragging);
-        };
-
-        function redraw() {
-
-            ctx.clearRect(0, 0, canvasWidth, canvasHeight); // Fill in the canvas with white
-                  
-            ctx.strokeStyle = "#df4b26";
-            ctx.lineJoin = "round";
-            ctx.lineWidth = 5;
-                        
-            for(var i=0; i < clickX.length; i++) {
-                ctx.beginPath();
-                if (clickDrag[i] && i) {
-                  ctx.moveTo(clickX[i-1], clickY[i-1]);
-                } else {
-                  ctx.moveTo(clickX[i]-1, clickY[i]);
-                }
-                  ctx.lineTo(clickX[i], clickY[i]);
-                  ctx.closePath();
-                  ctx.stroke();
-              }
-        };
-
-        $canvas.mousedown(function(e){
-          var mouseX = e.pageX - this.offsetLeft;
-          var mouseY = e.pageY - this.offsetTop;
-        
-          paint = true;
-          addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
-          redraw();
-        });
-
-
-        $canvas.mousemove(function(e){
-            if (paint) {
-                addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true)
-                redraw();
-            }        
-        });
-
-       
-        $canvas.on('mouseup mouseleave', function(e) {
-            paint = false;
-        });
-
-
-        $('#clearCanvas').click(function(e) {
-            clickX = [];
-            clickY = [];
-            clickDrag = [];
-
-            $canvas.attr('width', $canvas.attr('width'));
-           
-        });
-    });
-
-    </script>
-
+    
+    <script data-main="js/main" src="js/libs/require/require.js"></script>
 	</body>		
 </html>
 
