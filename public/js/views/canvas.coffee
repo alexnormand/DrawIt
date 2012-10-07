@@ -21,6 +21,7 @@ define ['backbone'], (Backbone) ->
       @canvas = @$el.find('#canvas')
       @anvasHeight = @canvas.attr('height')
       @canvasWidth = @canvas.attr('width')
+      @ctx = @canvas.get(0).getContext('2d')
 
 
     drawDot: (e) =>
@@ -32,7 +33,6 @@ define ['backbone'], (Backbone) ->
       @paint = true
       @addClick x, y
 
-      @ctx = @canvas.get(0).getContext('2d')
       @ctx.fillStyle = '#df4b26'
       @ctx.strokeStyle = '#df4b26'
       @ctx.lineJoin = 'round'
