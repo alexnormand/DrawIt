@@ -14,7 +14,7 @@ app.configure ->
   app.use express.methodOverride()
   app.use app.router
   app.use stylus.middleware(
-    src: __dirname + "/public"
+    src: __dirname + "/assets/css"
     compile: (str, path) ->
       stylus(str)
         .set("filename", str)
@@ -22,13 +22,13 @@ app.configure ->
         .use(nib())
         .import "nib"       
   )
-  app.use express.static __dirname + '/public'
+  app.use express.static __dirname + '/assets'
 
 app.configure 'development', ->
   app.use express.errorHandler
 
 app.get '/', (req, res) ->
-  fs.createReadStream(__dirname + '/views/index.html').pipe res
+  fs.createReadStream(__dirname + '/index.html').pipe res
 
 
 app.listen app.get 'port'
