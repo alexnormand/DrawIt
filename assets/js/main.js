@@ -7,7 +7,6 @@ require({
         'coffee-script': 'libs/coffee-script'
     },
 
-
     shim: {
         'backbone': {
             deps: ['underscore', 'jquery'],
@@ -15,5 +14,5 @@ require({
         }
     }
 
-}, ['cs!csmain']);
+}, ['cs!app/main']);
 
