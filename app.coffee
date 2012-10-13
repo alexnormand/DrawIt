@@ -14,10 +14,10 @@ app.configure ->
   app.use express.methodOverride()
   app.use app.router
   app.use stylus.middleware(
-    src: __dirname + "/assets/css"
+    src: __dirname + "/assets"
     compile: (str, path) ->
       stylus(str)
-        .set("filename", str)
+        .set("filename", path)
         .set("compress", false)        
         .use(nib())
         .import "nib"       
