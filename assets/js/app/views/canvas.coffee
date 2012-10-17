@@ -11,17 +11,28 @@ define ['backbone'], (Backbone) ->
 
 
     events:    
-      'mousedown #canvas' : 'drawDot'        
-      'mousemove #canvas': 'drawLine'        
-      'mouseup #canvas': 'stopDrawing'
-      'mouseleave #canvas': 'stopDrawing'
-      'click #clearCanvas': 'clearCanvas'
+      'mousedown #canvas'   : 'drawDot'        
+      'mousemove #canvas'   : 'drawLine'        
+      'mouseup #canvas'     : 'stopDrawing'
+      'mouseleave #canvas'  : 'stopDrawing'
+      'click #clearCanvas'  : 'clearCanvas'
+      'click #submitDrawing': 'submitDrawing'
         
     initialize: () ->
       @canvas = @$el.find('#canvas')
       @anvasHeight = @canvas.attr('height')
       @canvasWidth = @canvas.attr('width')
       @ctx = @canvas.get(0).getContext('2d')
+      @setContextDefaultOptions()
+
+      @model.bind 'change', (() -> @redraw(true)), @
+
+
+    setContextDefaultOptions: () ->
+      @ctx.fillStyle = '#df4b26'
+      @ctx.strokeStyle = '#df4b26'
+      @ctx.lineJoin = 'round'
+      @ctx.lineWidth = 4  
 
 
     drawDot: (e) =>
@@ -71,10 +82,28 @@ define ['backbone'], (Backbone) ->
       @clickDrag = []
       @canvas.attr 'width', @canvasWidth
 
-       
-    redraw: () ->
+
+    submitDrawing: (e) =>
+      @model.save
+        currentDrawing: 
+          clickX: @clickX
+          clickY: @clickY
+          clickDrag: @clickDrag        
+        
+     
+    redraw: (datafromModel) ->
       @ctx.clearRect 0, 0, @canvasWidth, @canvasHeight # Fill in the canvas with white
      
+      if datafromModel
+        @canvas.attr 'width', @canvasWidth        
+        @setContextDefaultOptions()
+        @refreshPlayerList(@model.get('players'))
+        @clickX = @model.get('currentDrawing').clickX      
+        @clickY = @model.get('currentDrawing').clickY
+        @clickDrag = @model.get('currentDrawing').clickDrag
+        console.log @model
+
+
       i = 0
 
       while i < @clickX.length
@@ -87,6 +116,13 @@ define ['backbone'], (Backbone) ->
         @ctx.closePath()
         @ctx.stroke()
         i++
+
+
+    refreshPlayerList: (players) ->
+      players = players.map (p) -> "<li>#{p}</li>"
+      $ul = @$el.find 'ol'
+      $ul.html players.join ''
+
 
     addClick: (x, y, dragging) ->
       @clickX.push x

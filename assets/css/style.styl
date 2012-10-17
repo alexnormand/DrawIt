@@ -9,12 +9,23 @@ a
   color: #00B7FF
 
 #main
-	background: white
-	box-shadow: 0 0 10px #888
-	width: 800px
+  background: white
+  box-shadow: 0 0 10px #888
+  width: 800px
   margin: auto
   padding: 10px
   overflow: hidden
+
+  ol
+    float: left
+    margin-right: 20px
+    width: 100px
+
+    li
+      text-overflow: ellipsis
+      white-space:nowrap
+      overflow:hidden
+      list-style-position:inside
 
 
 .mainTitle
@@ -30,10 +41,13 @@ button
   display: inline-block
   margin: 5px 0 0 5px
 
-#canvas
+#canvas 
   border: 1px dashed #DDD
-  display: block
+  display: inline-block
+  float: left
+  height: 400px
   margin: 10px
+  width: 600px
 
 
 footer
