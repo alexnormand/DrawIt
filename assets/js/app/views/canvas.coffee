@@ -10,14 +10,14 @@ define ['backbone'], (Backbone) ->
     paint: false
 
 
-    events:    
-      'mousedown #canvas'   : 'drawDot'        
-      'mousemove #canvas'   : 'drawLine'        
+    events:
+      'mousedown #canvas'   : 'drawDot'
+      'mousemove #canvas'   : 'drawLine'
       'mouseup #canvas'     : 'stopDrawing'
       'mouseleave #canvas'  : 'stopDrawing'
       'click #clearCanvas'  : 'clearCanvas'
       'click #submitDrawing': 'submitDrawing'
-        
+
     initialize: () ->
       @canvas = @$el.find('#canvas')
       @anvasHeight = @canvas.attr('height')
@@ -32,7 +32,7 @@ define ['backbone'], (Backbone) ->
       @ctx.fillStyle = '#df4b26'
       @ctx.strokeStyle = '#df4b26'
       @ctx.lineJoin = 'round'
-      @ctx.lineWidth = 4  
+      @ctx.lineWidth = 4
 
 
     drawDot: (e) =>
@@ -50,7 +50,7 @@ define ['backbone'], (Backbone) ->
       @ctx.lineWidth = 4
 
       @ctx.beginPath()
-      @ctx.arc(x, y, @.ctx.lineWidth / 2, 0, Math.PI * 2, true)
+      @ctx.arc(x, y, @ctx.lineWidth / 2, 0, Math.PI * 2, true)
       @ctx.closePath()
       @ctx.fill()
 
@@ -62,7 +62,7 @@ define ['backbone'], (Backbone) ->
       y = e.pageY - target.offsetTop
 
       if @paint
-        @addClick x, y, true        
+        @addClick x, y, true
         @ctx.beginPath()
         @ctx.moveTo @clickX[@clickX.length - 2], @clickY[@clickY.length - 2]
 
@@ -76,7 +76,7 @@ define ['backbone'], (Backbone) ->
       @redraw()
 
 
-    clearCanvas: (e) =>      
+    clearCanvas: (e) =>
       @clickX = []
       @clickY = []
       @clickDrag = []
@@ -85,23 +85,22 @@ define ['backbone'], (Backbone) ->
 
     submitDrawing: (e) =>
       @model.save
-        currentDrawing: 
+        currentDrawing:
           clickX: @clickX
           clickY: @clickY
-          clickDrag: @clickDrag        
-        
-     
+          clickDrag: @clickDrag
+
+
     redraw: (datafromModel) ->
       @ctx.clearRect 0, 0, @canvasWidth, @canvasHeight # Fill in the canvas with white
-     
+
       if datafromModel
-        @canvas.attr 'width', @canvasWidth        
+        @canvas.attr 'width', @canvasWidth
         @setContextDefaultOptions()
         @refreshPlayerList(@model.get('players'))
-        @clickX = @model.get('currentDrawing').clickX      
+        @clickX = @model.get('currentDrawing').clickX
         @clickY = @model.get('currentDrawing').clickY
         @clickDrag = @model.get('currentDrawing').clickDrag
-        console.log @model
 
 
       i = 0
@@ -119,7 +118,7 @@ define ['backbone'], (Backbone) ->
 
 
     refreshPlayerList: (players) ->
-      players = players.map (p) -> "<li>#{p}</li>"
+      players = ("<li>#{p}</li>" for p in players)
       $ul = @$el.find 'ol'
       $ul.html players.join ''
 
@@ -130,7 +129,7 @@ define ['backbone'], (Backbone) ->
       @clickDrag.push dragging
 
 
-   
+
 
 
 

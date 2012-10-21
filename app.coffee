@@ -23,9 +23,9 @@ app.configure ->
     compile: (str, path) ->
       stylus(str)
         .set("filename", path)
-        .set("compress", false)        
+        .set("compress", false)
         .use(nib())
-        .import "nib"       
+        .import "nib"
   )
   app.use express.static __dirname + '/assets'
 
@@ -34,20 +34,20 @@ app.configure 'development', ->
 
 # extend mixin
 extend = (obj, mixin) ->
-  obj[name] = method for name, method of mixin        
+  obj[name] = method for name, method of mixin
   obj
 
 
-game = 
+game =
   players: []
   currentPlayer: ""
-  currentDrawing: 
+  currentDrawing:
     clickX    : []
     clickY    : []
     clickDrag : []
 
 
-io.sockets.on 'connection',  (socket) ->  
+io.sockets.on 'connection',  (socket) ->
   game.players.push socket.id unless socket.id in game.players
 
   # model#fetch
@@ -55,9 +55,9 @@ io.sockets.on 'connection',  (socket) ->
     game = extend game, data
     socket.emit 'games/' + data.id + ':update', game
 
-  #model#save  
-  socket.on 'games:update', (data, callback) ->  
-    game = extend game, data 
+  #model#save
+  socket.on 'games:update', (data, callback) ->
+    game = extend game, data
     io.sockets.emit 'games/' + data.id + ':update', game
 
   socket.on 'disconnect', () ->
