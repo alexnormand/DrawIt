@@ -111,7 +111,6 @@ define ['backbone'], (Backbone) ->
         #refresh clickX, clickY, clickDrag and clickColor properties
         for property, value of @model.get('currentDrawing')
           @[property] = value
-          console.log property, @[property]
 
 
       i = 0
