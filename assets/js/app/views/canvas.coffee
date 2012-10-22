@@ -7,6 +7,7 @@ define ['backbone'], (Backbone) ->
     clickX: []
     clickY: []
     clickDrag: []
+    clickColor: []
     paint: false
 
 
@@ -17,22 +18,31 @@ define ['backbone'], (Backbone) ->
       'mouseleave #canvas'  : 'stopDrawing'
       'click #clearCanvas'  : 'clearCanvas'
       'click #submitDrawing': 'submitDrawing'
+      'change #colorPicker' : 'setColor'
 
     initialize: () ->
       @canvas = @$el.find('#canvas')
-      @anvasHeight = @canvas.attr('height')
+      @canvasHeight = @canvas.attr('height')
       @canvasWidth = @canvas.attr('width')
       @ctx = @canvas.get(0).getContext('2d')
-      @setContextDefaultOptions()
 
       @model.bind 'change', (() -> @redraw(true)), @
 
+      $('#colorPicker').colorPicker()
+      @
 
-    setContextDefaultOptions: () ->
-      @ctx.fillStyle = '#df4b26'
-      @ctx.strokeStyle = '#df4b26'
+    setContextDefaultOptions: (color) ->
+      @ctx.fillStyle = color
+      @ctx.strokeStyle = color
       @ctx.lineJoin = 'round'
       @ctx.lineWidth = 4
+
+    setColor: (e) =>
+      e = e or window.event
+      color = e.target.value
+
+      @ctx.fillStyle   = color
+      @ctx.strokeStyle = color
 
 
     drawDot: (e) =>
@@ -41,13 +51,11 @@ define ['backbone'], (Backbone) ->
       x = e.pageX - target.offsetLeft
       y = e.pageY - target.offsetTop
 
-      @paint = true
-      @addClick x, y
 
-      @ctx.fillStyle = '#df4b26'
-      @ctx.strokeStyle = '#df4b26'
-      @ctx.lineJoin = 'round'
-      @ctx.lineWidth = 4
+      @setContextDefaultOptions($('#colorPicker').val())
+
+      @paint = true
+      @addClick x, y, @ctx.fillStyle
 
       @ctx.beginPath()
       @ctx.arc(x, y, @ctx.lineWidth / 2, 0, Math.PI * 2, true)
@@ -62,7 +70,7 @@ define ['backbone'], (Backbone) ->
       y = e.pageY - target.offsetTop
 
       if @paint
-        @addClick x, y, true
+        @addClick x, y, @ctx.fillStyle, true
         @ctx.beginPath()
         @ctx.moveTo @clickX[@clickX.length - 2], @clickY[@clickY.length - 2]
 
@@ -77,9 +85,10 @@ define ['backbone'], (Backbone) ->
 
 
     clearCanvas: (e) =>
-      @clickX = []
-      @clickY = []
-      @clickDrag = []
+      @clickX     = []
+      @clickY     = []
+      @clickDrag  = []
+      @clickColor = []
       @canvas.attr 'width', @canvasWidth
 
 
@@ -89,23 +98,24 @@ define ['backbone'], (Backbone) ->
           clickX: @clickX
           clickY: @clickY
           clickDrag: @clickDrag
+          clickColor: @clickColor
 
 
-    redraw: (datafromModel) ->
+    redraw: (datafromModel=false) ->
       @ctx.clearRect 0, 0, @canvasWidth, @canvasHeight # Fill in the canvas with white
 
       if datafromModel
         @canvas.attr 'width', @canvasWidth
-        @setContextDefaultOptions()
         @refreshPlayerList(@model.get('players'))
         @clickX = @model.get('currentDrawing').clickX
         @clickY = @model.get('currentDrawing').clickY
         @clickDrag = @model.get('currentDrawing').clickDrag
+        @clickColor = @model.get('currentDrawing').clickColor
 
 
       i = 0
-
       while i < @clickX.length
+        @setContextDefaultOptions(@clickColor[i])
         @ctx.beginPath()
         if @clickDrag[i] and i
           @ctx.moveTo @clickX[i - 1], @clickY[i - 1]
@@ -123,9 +133,10 @@ define ['backbone'], (Backbone) ->
       $ul.html players.join ''
 
 
-    addClick: (x, y, dragging) ->
+    addClick: (x, y, color, dragging=false) ->
       @clickX.push x
       @clickY.push y
+      @clickColor.push color
       @clickDrag.push dragging
 
 

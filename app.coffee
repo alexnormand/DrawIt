@@ -45,6 +45,7 @@ game =
     clickX    : []
     clickY    : []
     clickDrag : []
+    clickColor: []
 
 
 io.sockets.on 'connection',  (socket) ->
