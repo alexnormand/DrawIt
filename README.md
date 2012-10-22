@@ -13,3 +13,15 @@ Build instructions
     $ nodemon app.coffee
 
  open [http://localhost:3000/](http://localhost:3000/) in your browser
+
+
+TODO
+====
+ * Implement touch events (android, ios, ...)
+ * Implement authentication (OAuth, OpenId,...)
+ * Store Scores and current games (mongodb)
+ * Implement multiple games / private games
+ * Define game rules
+
+    
+   
