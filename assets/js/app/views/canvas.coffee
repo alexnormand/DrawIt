@@ -107,10 +107,11 @@ define ['backbone'], (Backbone) ->
       if datafromModel
         @canvas.attr 'width', @canvasWidth
         @refreshPlayerList(@model.get('players'))
-        @clickX = @model.get('currentDrawing').clickX
-        @clickY = @model.get('currentDrawing').clickY
-        @clickDrag = @model.get('currentDrawing').clickDrag
-        @clickColor = @model.get('currentDrawing').clickColor
+
+        #refresh clickX, clickY, clickDrag and clickColor properties
+        for property, value of @model.get('currentDrawing')
+          @[property] = value
+          console.log property, @[property]
 
 
       i = 0
