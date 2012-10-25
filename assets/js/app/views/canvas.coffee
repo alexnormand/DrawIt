@@ -28,7 +28,7 @@ define ['backbone'], (Backbone) ->
 
       @model.bind 'change', (() -> @redraw(true)), @
 
-      $('#colorPicker').colorPicker()
+      @$el.find('#colorPicker').colorPicker()
       @
 
     setContextDefaultOptions: (color) ->
@@ -52,7 +52,7 @@ define ['backbone'], (Backbone) ->
       y = e.pageY - target.offsetTop
 
 
-      @setContextDefaultOptions($('#colorPicker').val())
+      @setContextDefaultOptions(@$el.find('#colorPicker').val())
 
       @paint = true
       @addClick x, y, @ctx.fillStyle
@@ -138,9 +138,4 @@ define ['backbone'], (Backbone) ->
       @clickY.push y
       @clickColor.push color
       @clickDrag.push dragging
-
-
-
-
-
 
