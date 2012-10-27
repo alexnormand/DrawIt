@@ -12,6 +12,8 @@ define ['backbone'], (Backbone) ->
 
 
     events:
+      'touchstart #canvas'  : 'drawDot',
+      'touchmove  #canvas'  : 'drawLine'
       'mousedown #canvas'   : 'drawDot'
       'mousemove #canvas'   : 'drawLine'
       'mouseup #canvas'     : 'stopDrawing'
@@ -31,6 +33,7 @@ define ['backbone'], (Backbone) ->
       @$el.find('#colorPicker').colorPicker()
       @
 
+
     setContextDefaultOptions: (color) ->
       @ctx.fillStyle = color
       @ctx.strokeStyle = color
@@ -46,7 +49,12 @@ define ['backbone'], (Backbone) ->
 
 
     drawDot: (e) =>
-      e = e or window.event
+      e.preventDefault()
+      if e.originalEvent.touches
+        e = e.originalEvent.touches[0]
+      else
+        e = e or window.event
+
       target = e.target or e.srcElement
       x = e.pageX - target.offsetLeft
       y = e.pageY - target.offsetTop
@@ -64,7 +72,12 @@ define ['backbone'], (Backbone) ->
 
 
     drawLine: (e) =>
-      e = e or window.event
+      e.preventDefault()
+      if e.originalEvent.touches
+        e = e.originalEvent.touches[0]
+      else
+        e = e or window.event
+
       target = e.target or e.srcElement
       x = e.pageX - target.offsetLeft
       y = e.pageY - target.offsetTop

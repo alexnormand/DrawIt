@@ -1,14 +1,15 @@
 require({
     paths: {
-        jquery: 'libs/jquery/jquery',
+        jquery              : 'libs/jquery/jquery',
         'jquery.colorPicker': 'libs/jquery/jquery.colorPicker.min',
-        underscore: 'libs/underscore',
-        backbone: 'libs/backbone/backbone',
-        'backbone.iosync': 'libs/backbone/backbone.iosync',
-        'backbone.iobind': 'libs/backbone/backbone.iobind',
-        cs: 'libs/require/cs',
-        'coffee-script': 'libs/coffee-script',
-        io: '/socket.io/socket.io'
+        underscore          : 'libs/underscore',
+        backbone            : 'libs/backbone/backbone',
+        'backbone.iosync'   : 'libs/backbone/backbone.iosync',
+        'backbone.iobind'   : 'libs/backbone/backbone.iobind',
+        cs                  : 'libs/require/cs',
+        'coffee-script'     : 'libs/coffee-script',
+        io                  : '/socket.io/socket.io',
+        fastclick           : 'libs/fastclick'
     },
 
     shim: {
