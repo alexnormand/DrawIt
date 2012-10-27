@@ -53,12 +53,9 @@ define ['backbone'], (Backbone) ->
       e.preventDefault()
       if e.originalEvent.touches
         e = e.originalEvent.touches[0]
-      else
-        e = e or window.event
 
-      target = e.target or e.srcElement
-      x = e.pageX - target.offsetLeft
-      y = e.pageY - target.offsetTop
+      x = e.pageX - e.target.offsetLeft
+      y = e.pageY - e.target.offsetTop
 
 
       @setContextDefaultOptions(@colorPicker.val())
@@ -76,12 +73,9 @@ define ['backbone'], (Backbone) ->
       e.preventDefault()
       if e.originalEvent.touches
         e = e.originalEvent.touches[0]
-      else
-        e = e or window.event
 
-      target = e.target or e.srcElement
-      x = e.pageX - target.offsetLeft
-      y = e.pageY - target.offsetTop
+      x = e.pageX - e.target.offsetLeft
+      y = e.pageY - e.target.offsetTop
 
       if @paint
         @addClick x, y, @ctx.fillStyle, true
