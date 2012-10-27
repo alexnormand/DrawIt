@@ -4,6 +4,8 @@ define ['backbone'], (Backbone) ->
 
     el: '#main'
 
+    colorPicker: undefined
+
     clickX: []
     clickY: []
     clickDrag: []
@@ -29,8 +31,7 @@ define ['backbone'], (Backbone) ->
       @ctx = @canvas.get(0).getContext('2d')
 
       @model.bind 'change', (() -> @redraw(true)), @
-
-      @$el.find('#colorPicker').colorPicker()
+      @colorPicker = @$el.find('#colorPicker').colorPicker()
       @
 
 
@@ -60,7 +61,7 @@ define ['backbone'], (Backbone) ->
       y = e.pageY - target.offsetTop
 
 
-      @setContextDefaultOptions(@$el.find('#colorPicker').val())
+      @setContextDefaultOptions(@colorPicker.val())
 
       @paint = true
       @addClick x, y, @ctx.fillStyle
