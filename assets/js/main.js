@@ -2,6 +2,7 @@ require({
     paths: {
         jquery              : 'libs/jquery/jquery',
         'jquery.colorPicker': 'libs/jquery/jquery.colorPicker.min',
+        'jquery.lettering'  : 'libs/jquery/jquery.lettering',
         underscore          : 'libs/underscore',
         backbone            : 'libs/backbone/backbone',
         'backbone.iosync'   : 'libs/backbone/backbone.iosync',
@@ -34,6 +35,11 @@ require({
         'jquery.colorPicker': {
             deps: ['jquery'],
             exports: 'jQuery.fn.colorPicker'
+        },
+
+        'jquery.lettering': {
+            deps: ['jquery'],
+            exports: 'jQuery.fn.lettering'
         }
     }
 
