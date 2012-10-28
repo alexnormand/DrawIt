@@ -39,10 +39,28 @@ a
   color: #A51;
   font-family: Satisfy
   font-size: 80px
+  letter-spacing: 1px
   margin: 0
   text-align: center
   text-shadow: 0 1px 2px #010202
 
+
+  for letter in 0 1 2 3 4 5 6 7
+    .char{letter+1}
+      color: #A51
+      complementary = #00515D
+
+      &:hover
+        color: spin(complementary, letter * 120)
+
+  span
+    position: relative
+    transition: all 0.2s ease-out
+
+    &:hover
+      top: 4px
+      left: 4px
+      cursor: pointer
 
 button
   display: inline-block
