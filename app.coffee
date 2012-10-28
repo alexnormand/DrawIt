@@ -23,7 +23,8 @@ app.configure ->
     compile: (str, path) ->
       stylus(str)
         .set("filename", path)
-        .set("compress", false)
+        .set("compress", true)
+        .define('url', stylus.url())
         .use(nib())
         .import "nib"
   )
